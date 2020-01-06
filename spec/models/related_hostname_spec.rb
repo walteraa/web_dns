@@ -16,5 +16,9 @@ RSpec.describe RelatedHostname, type: :model do
 
       it { expect(related_host).to_not be_valid }
     end
+
+    describe 'Relationship validation' do
+      it { should have_and_belong_to_many(:dns_records) }
+    end
   end
 end

@@ -16,4 +16,8 @@ RSpec.describe DnsRecord, type: :model do
       it { expect(dns_entry).to_not be_valid }
     end
   end
+
+  describe 'Relationship validation' do
+    it { should have_and_belong_to_many(:related_hostnames) }
+  end
 end
