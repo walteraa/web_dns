@@ -26,4 +26,16 @@ RSpec.describe RelatedHostname, type: :model do
       it { should have_and_belong_to_many(:dns_records) }
     end
   end
+
+  describe 'Uniqueness' do
+    let(:hostname) { Faker::Internet.domain_name(subdomain: true) }
+    before do
+      create(:related_hostname, hostname: hostname)
+    end
+
+    context 'repeated invalid' do
+      let(:related_hostname) { build(:related_hostname, hostname: hostname) }
+      it { expect(related_hostname).to_not be_valid }
+    end
+  end
 end
