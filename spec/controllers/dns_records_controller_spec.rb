@@ -46,10 +46,21 @@ RSpec.describe DnsRecordsController, type: :controller do
   let(:response_json) { JSON.parse(response.body) }
 
   describe 'GET #index' do
-    it 'returns a success response' do
-      dns_record = DnsRecord.create! valid_attributes.fetch(:dns_records)
-      get :index, params: {}, session: valid_session
-      expect(response).to be_successful
+    before do
+      DnsRecord.create! valid_attributes.fetch(:dns_records)
+    end
+    context 'page param missing' do
+      it 'returns a failure response' do
+        get :index, params: {}, session: valid_session
+        expect(response).to_not be_successful
+      end
+    end
+
+    context 'page params passed' do
+      it 'returns a success response' do
+        get :index, params: { page: 1 }, session: valid_session
+        expect(response).to be_successful
+      end
     end
   end
 
