@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :dns_record do
     ip_address { Faker::Internet.public_ip_v4_address }

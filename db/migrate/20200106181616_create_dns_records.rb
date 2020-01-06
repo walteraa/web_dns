@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateDnsRecords < ActiveRecord::Migration[5.2]
   def change
     create_table :dns_records do |t|
