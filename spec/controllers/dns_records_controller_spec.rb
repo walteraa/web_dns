@@ -30,30 +30,25 @@ RSpec.describe DnsRecordsController, type: :controller do
   # DnsRecord. As you add validations to DnsRecord, be sure to
   # adjust the attributes here as well.
   let(:valid_attributes) do
-    skip('Add a hash of attributes valid for your model')
+    build(:post_hash)
   end
 
   let(:invalid_attributes) do
-    skip('Add a hash of attributes invalid for your model')
+    hash = build(:post_hash)
+    hash[:dns_records].delete(:ip)
+    hash
   end
 
   # This should return the minimal set of values that should be in the session
   # in order to pass any filters (e.g. authentication) defined in
   # DnsRecordsController. Be sure to keep this updated too.
   let(:valid_session) { {} }
+  let(:response_json) { JSON.parse(response.body) }
 
   describe 'GET #index' do
     it 'returns a success response' do
-      dns_record = DnsRecord.create! valid_attributes
+      dns_record = DnsRecord.create! valid_attributes.fetch(:dns_records)
       get :index, params: {}, session: valid_session
-      expect(response).to be_successful
-    end
-  end
-
-  describe 'GET #show' do
-    it 'returns a success response' do
-      dns_record = DnsRecord.create! valid_attributes
-      get :show, params: { id: dns_record.to_param }, session: valid_session
       expect(response).to be_successful
     end
   end
@@ -62,66 +57,24 @@ RSpec.describe DnsRecordsController, type: :controller do
     context 'with valid params' do
       it 'creates a new DnsRecord' do
         expect do
-          post :create, params: { dns_record: valid_attributes }, session: valid_session
+          post :create, params: valid_attributes, session: valid_session
         end.to change(DnsRecord, :count).by(1)
       end
 
-      it 'renders a JSON response with the new dns_record' do
-        post :create, params: { dns_record: valid_attributes }, session: valid_session
+      it 'renders a JSON response with the new dns_record id' do
+        post :create, params: valid_attributes, session: valid_session
         expect(response).to have_http_status(:created)
         expect(response.content_type).to eq('application/json')
-        expect(response.location).to eq(dns_record_url(DnsRecord.last))
+        expect(response_json['id']).to_not be_nil
       end
     end
 
     context 'with invalid params' do
       it 'renders a JSON response with errors for the new dns_record' do
-        post :create, params: { dns_record: invalid_attributes }, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
+        post :create, params: { dns_record: invalid_attributes },
+                      session: valid_session
+        expect(response).to have_http_status(:bad_request)
       end
-    end
-  end
-
-  describe 'PUT #update' do
-    context 'with valid params' do
-      let(:new_attributes) do
-        skip('Add a hash of attributes valid for your model')
-      end
-
-      it 'updates the requested dns_record' do
-        dns_record = DnsRecord.create! valid_attributes
-        put :update, params: { id: dns_record.to_param, dns_record: new_attributes }, session: valid_session
-        dns_record.reload
-        skip('Add assertions for updated state')
-      end
-
-      it 'renders a JSON response with the dns_record' do
-        dns_record = DnsRecord.create! valid_attributes
-
-        put :update, params: { id: dns_record.to_param, dns_record: valid_attributes }, session: valid_session
-        expect(response).to have_http_status(:ok)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-
-    context 'with invalid params' do
-      it 'renders a JSON response with errors for the dns_record' do
-        dns_record = DnsRecord.create! valid_attributes
-
-        put :update, params: { id: dns_record.to_param, dns_record: invalid_attributes }, session: valid_session
-        expect(response).to have_http_status(:unprocessable_entity)
-        expect(response.content_type).to eq('application/json')
-      end
-    end
-  end
-
-  describe 'DELETE #destroy' do
-    it 'destroys the requested dns_record' do
-      dns_record = DnsRecord.create! valid_attributes
-      expect do
-        delete :destroy, params: { id: dns_record.to_param }, session: valid_session
-      end.to change(DnsRecord, :count).by(-1)
     end
   end
 end

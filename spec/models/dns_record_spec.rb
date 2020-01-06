@@ -20,7 +20,7 @@ RSpec.describe DnsRecord, type: :model do
   end
 
   describe 'Relationship validation' do
-    it { should have_and_belong_to_many(:related_hostnames) }
+    it { should have_and_belong_to_many(:hostnames) }
   end
 
   describe 'Uniqueness' do
