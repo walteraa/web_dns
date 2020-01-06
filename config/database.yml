@@ -1,0 +1,38 @@
+# Mysql database configurations
+<% if ENV['DATABASE_URL'].present? %>
+  <%
+  # Parse parameters out of ENV['DATABASE_URL']
+  uri = URI.parse(ENV['DATABASE_URL'])
+  database = (uri.path || '').split('/')[1]
+  username = uri.user
+  password = uri.password
+  host = uri.host
+  port = uri.port
+  %>
+<% end %>
+
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  database: <%= database %>
+  username: <%= username || 'root' %>
+  password: <%= password || 'root' %>
+  host: <%= host || '127.0.0.1' %>
+  port: <%= port %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: web_dns_dev
+
+# Warning: The database defined as "test" will be erased and
+# re-generated from your development database when you run "rake".
+# Do not set this db to the same as development or production.
+test:
+  <<: *default
+  database: web_dns_test
+
+production:
+  <<: *default
+  database: web_dns_prod
