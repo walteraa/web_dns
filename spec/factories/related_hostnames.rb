@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :related_hostname do
     hostname { Faker::Internet.domain_name(subdomain: true) }
