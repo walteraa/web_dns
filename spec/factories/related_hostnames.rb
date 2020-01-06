@@ -8,5 +8,9 @@ FactoryBot.define do
     trait :with_invalid_hostname do
       hostname { Faker::Internet.url }
     end
+
+    trait :with_dns_record do
+      dns_records { create_list(:dns_record, 2) }
+    end
   end
 end
