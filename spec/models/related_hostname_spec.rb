@@ -13,8 +13,13 @@ RSpec.describe RelatedHostname, type: :model do
 
     context 'Invalid hostname' do
       let(:related_host) { build(:related_hostname, :with_invalid_hostname) }
+      let(:related_host_without_hostname) do
+        build(:related_hostname,
+              hostname: nil)
+      end
 
       it { expect(related_host).to_not be_valid }
+      it { expect(related_host_without_hostname).to_not be_valid }
     end
 
     describe 'Relationship validation' do

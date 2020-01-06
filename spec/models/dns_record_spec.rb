@@ -12,8 +12,10 @@ RSpec.describe DnsRecord, type: :model do
 
     context 'Invalid IP' do
       let(:dns_entry) { build(:dns_record, :with_invalid_ip) }
+      let(:dns_entry_empty_ip) { build(:dns_record, ip_address: nil) }
 
       it { expect(dns_entry).to_not be_valid }
+      it { expect(dns_entry_empty_ip).to_not be_valid }
     end
   end
 
