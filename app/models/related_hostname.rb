@@ -1,0 +1,2 @@
+class RelatedHostname < ApplicationRecord
+end
