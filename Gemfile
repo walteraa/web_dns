@@ -19,6 +19,9 @@ gem 'pry', '~> 0.12.2'
 # Paginator
 gem 'will_paginate', '~> 3.0.4'
 
+# Json Builder
+gem 'jbuilder'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 # gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
