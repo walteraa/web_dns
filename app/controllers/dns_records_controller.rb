@@ -5,8 +5,12 @@ class DnsRecordsController < ApplicationController
 
   # GET /dns_records
   def index
-    page = request_params <= 1 ? 1 : request_params - 1
-    @dns_records = DnsRecord.paginate page: page, per_page: 10
+    page = request_params[:page] <= 1 ? 1 : request_params[:page] - 1
+    @dns_records = DnsRecord.page(page).per(10)
+
+    @form = ShowForm.new @dns_records,
+                         request_params[:included],
+                         request_params[:excluded]
   rescue ActionController::ParameterMissing
     render nothing: true, status: :bad_request
   end
@@ -36,6 +40,8 @@ class DnsRecordsController < ApplicationController
   end
 
   def request_params
-    params.require(:page).to_i
+    { page: params.require(:page).to_i,
+      excluded: params.permit(:excluded).to_h[:excluded]&.split(','),
+      included: params.permit(:included).to_h[:included]&.split(',') }
   end
 end
