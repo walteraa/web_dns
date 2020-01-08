@@ -17,7 +17,7 @@ gem 'mysql2', '0.5.2'
 gem 'pry', '~> 0.12.2'
 
 # Paginator
-gem 'will_paginate', '~> 3.0.4'
+gem 'kaminari'
 
 # Json Builder
 gem 'jbuilder'
