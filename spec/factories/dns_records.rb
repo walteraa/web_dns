@@ -10,7 +10,7 @@ FactoryBot.define do
     end
 
     trait :with_related_hostnames do
-      related_hostnames { create_list(:related_hostname, 5) }
+      hostnames { create_list(:related_hostname, 5) }
     end
   end
 end
