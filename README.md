@@ -74,6 +74,18 @@ walter in ~/Workspace/web_dns (master ✔) ➜  curl 'localhost:3000/dns_records
 {"dns_records":{"total_records":1,"records":[{"id":2,"ip_address":"1.1.1.3"}],"related_hostnames":[{"hostname":"localhost.com","count":1}]}}⏎ 
 ```
 
+Whether you would like to pass more than one data in the included/excluded params, you can send it divided by comma:
+
+```
+walter in ~/Workspace/web_dns (master ✔) ➜  
+curl 'localhost:3000/dns_records?page=1&excluded=localhost.com,lorem.ipsum'
+{"dns_records":{"total_records":0,"records":[],"related_hostnames":[]}}⏎ 
+
+walter in ~/Workspace/web_dns (master ✔) ➜  
+curl 'localhost:3000/dns_records?page=1&included=localhost.com,lorem.ipsum'
+{"dns_records":{"total_records":2,"records":[{"id":1,"ip_address":"1.1.1.2"},{"id":2,"ip_address":"1.1.1.3"}],"related_hostnames":[{"hostname":"lorem.ipsum","count":2},{"hostname":"localhost.com","count":1}]}}⏎
+```
+
 ### Running the automated tests
 
 To run the automated tests, you just need to use the docker-compose exec command:
